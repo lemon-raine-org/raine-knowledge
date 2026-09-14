@@ -4,7 +4,7 @@ kind: ingest
 run_date: "2026-09-14"
 author: raine-lemon
 summary: "클리핑 2건 → wiki 신규 1·갱신 1. AGENTS.md/CLAUDE.md 이식성 정리, globs 대응물 질문 해소"
-pr:
+pr: 2
 processed: 2
 new_notes: 1
 updated_notes: 1
