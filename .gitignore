@@ -1,0 +1,18 @@
+.DS_Store
+.obsidian/
+.claude/*
+!.claude/skills/
+.locks/
+.claudian/
+tmp/
+
+# Python runtime state
+__pycache__/
+*.pyc
+
+# personal daily work/research notes — local-only, never shared with the team
+private/
+
+# vault-root shared node devDependencies (see projects/second-brain/config/devops/)
+# Manifest and version pin are tracked; installs are not.
+/node_modules/
