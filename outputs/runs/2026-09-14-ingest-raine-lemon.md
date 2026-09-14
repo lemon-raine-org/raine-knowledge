@@ -4,7 +4,7 @@ kind: ingest
 run_date: "2026-09-14"
 author: raine-lemon
 summary: "클리핑 2건(woowahan 하네스 엔지니어링, Hermes 멀티에이전트) ingest — wiki 노트 5건 신규, topic ai-agents 개설, raw 레인 첫 유입"
-pr:
+pr: 1
 processed: 2
 new_notes: 5
 updated_notes: 0
