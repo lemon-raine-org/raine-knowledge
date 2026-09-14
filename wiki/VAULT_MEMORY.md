@@ -40,5 +40,7 @@ Vault 수준의 살아있는 액션만, 최대 5개. 닫히면 삭제한다. 프
 `projects/<name>/README.md`의 `next_action`에 둔다.
 
 - 인제스트 파이프라인이 한 번도 실행되지 않았다 — `Clippings/` 미처리 1건으로 첫 실행을 검증해야 한다.
+- 루트 `AGENTS.md`가 `CLAUDE.md`를 가리키는 포인터라 Codex 쪽에서는 하드 인바리언트가 소프트
+  지시로만 남는다 — 인라인 복사나 방향 반전 중 하나로 닫아야 한다.
 - 규칙 기계 검사가 여전히 부분적이다: `vault_verify.py`가 memory 캡·raw/archive append-only·frontmatter
   파싱·레인 흔적(run-log/lint 리포트)을 판정하지만, 머신 절대경로와 개인 데이터 가드는 아직 사람이 본다.

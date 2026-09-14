@@ -12,3 +12,4 @@ up:
 - [[wiki/agent-context-optimization|Agent Context Optimization]]
 - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]]
 - [[wiki/claude-code-cli-delegation|Claude Code CLI Delegation]]
+- [[wiki/agent-instruction-files|Agent Instruction Files]]
