@@ -5,6 +5,7 @@ topics:
 status: draft
 sources:
   - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
+  - "raw/How Claude remembers your project - Claude Code Docs.md"
 created: "2026-09-14"
 updated: "2026-09-14"
 ---
@@ -102,6 +103,7 @@ React Query Hook → 테스트 코드` 순서로 고정된다. 결과물이 100%
 ## Connections
 
 - [[wiki/harness-engineering|Harness Engineering]] — 이 두 축이 속한 상위 개념
+- [[wiki/agent-instruction-files|Agent Instruction Files]] — Rules를 담는 지침 파일의 위치·스코프·도구 간 이식성
 - [[wiki/agent-context-optimization|Agent Context Optimization]] — Skills의 컨텍스트 낭비 한계를 푸는 다음 단계
 - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]] — 역할 분리를 에이전트 단위로 확장한 형태
 
@@ -110,5 +112,8 @@ React Query Hook → 테스트 코드` 순서로 고정된다. 결과물이 100%
 - Rules를 언제 쓰면 좋은가는 원문이 두 조건으로 답한다 — 지켜야 할 확고한 아키텍처·컨벤션이
   있을 때, 그리고 팀 단위로 AI 협업 체계를 자동화하고 싶을 때. 반대로 컨벤션이 유동적인
   초기 프로젝트에서의 손익은 다루지 않는다.
-- `globs` 기반 조건부 활성화가 Cursor 고유 기능인지, 다른 하네스에도 대응물이 있는지 확인 필요
-  (needs-update: 원문은 Cursor 기준으로만 서술한다).
+- ~~`globs` 기반 조건부 활성화가 Cursor 고유 기능인지~~ — **해소(2026-09-14)**. Claude Code에
+  `.claude/rules/`의 `paths` frontmatter라는 대응물이 있다. 글롭으로 경로를 지정하면 매칭되는
+  파일을 읽을 때만 rule이 활성화되고, `paths` 없는 rule은 무조건 로드된다. 키 이름과 파일 위치는
+  다르지만 "경로로 지침을 조건부 활성화한다"는 축은 같다 —
+  [[wiki/agent-instruction-files|Agent Instruction Files]] § 조건부 로딩.
