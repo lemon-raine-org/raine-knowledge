@@ -3,59 +3,40 @@ type: run-log
 kind: ingest
 run_date: "2026-09-15"
 author: raine-lemon
-summary: "2개 클리핑(HWPX·PDF 변환) 처리, 신규 노트 1건, 기존 노트 4건 갱신"
+summary: "AI 에이전트 권한 3단 분류 클리핑 1건 인제스트, 신규 노트 1개"
 pr:
-processed: 2
+processed: 1
 new_notes: 1
-updated_notes: 4
+updated_notes: 0
 tags:
   - ai-agents
 sources:
-  - "raw/AI 에이전트 하네스 운영 지침(2026-02 개정).md"
-  - "raw/멀티 에이전트 오케스트레이션 도입 회고(2026-03).md"
+  - "raw/지금 진짜 쓸 만한 AI 에이전트 10가지 총정리(1) 웹·코딩 에이전트.md"
 notes:
-  - "[[wiki/agent-delegation-contract|Agent Delegation Contract]]"
-  - "[[wiki/multi-agent-orchestration|Multi-Agent Orchestration]]"
-  - "[[wiki/agent-rules-and-skills|Agent Rules and Skills]]"
-  - "[[wiki/agent-instruction-files|Agent Instruction Files]]"
-  - "[[wiki/agent-context-optimization|Agent Context Optimization]]"
+  - "[[wiki/agent-permission-tiers|Agent Permission Tiers]]"
 ---
 
-# 2026-09-15 ingest (raine-lemon)
+# 2026-09-15 Ingest (raine-lemon)
 
 ## Summary
 
-`/Users/raine/2026-09-15클바테스트셈플/`의 HWPX·PDF 2건을 각각 `hwp2md-ingest`(H1)·
-`pdf2md-ingest`(S6)로 변환해 Clippings/에 투입한 뒤 wiki로 컴파일했다. 두 원문 모두
-"지식관리 파이프라인 검증용 가상 샘플"임을 본문에 명시하고 있어(실존 조직·인물 무관) 커밋
-가능 여부를 사용자에게 확인 후 정식 잉게스트로 진행했다.
+요즘IT 기사("지금 진짜 쓸 만한 AI 에이전트 10가지 총정리(1)") 1건을 처리했다. 기존
+`ai-agents` 토픽의 노트들과 개념이 겹치지 않아(하네스/규칙-스킬/CLI 위임/오케스트레이션은
+모두 "에이전트를 어떻게 운영·구성하는가"이고, 이 글은 "에이전트를 권한 기준으로 어떻게
+분류하는가") 신규 개념 노트 `wiki/agent-permission-tiers.md`를 만들었다.
 
 ## Details
 
-- 원본 보존: `raw/hwp/AI 에이전트 하네스 운영 지침(2026-02 개정).hwpx`,
-  `raw/pdf/멀티 에이전트 오케스트레이션 도입 회고(2026-03).pdf`.
-- 변환 산출 이동: 두 변환 MD를 raw/ 루트로 이동(`raw/AI 에이전트 하네스 운영 지침(2026-02
-  개정).md`, `raw/멀티 에이전트 오케스트레이션 도입 회고(2026-03).md`).
-- 신규 노트: [[wiki/agent-delegation-contract|Agent Delegation Contract]] — 두 원문이
-  공통으로 가리키는 "위임 계약" 개념(입력/출력/실패조건 3요소, 역할 배치표, 쪼개기 기준,
-  핸드오프 회수 전략)을 별도 개념 문서로 분리했다. 기존 [[wiki/multi-agent-orchestration|
-  Multi-Agent Orchestration]]과 내용이 겹치지 않도록, 오케스트레이션 문서에는 회고 요약과
-  링크만 추가했다.
-- 기존 노트 갱신 (신규 클리핑을 sources에 추가하고 관련 절 보강, 신규 노트를 만들지 않고
-  기존 문서를 우선 갱신하는 원칙 적용):
-  - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]] — "도입 회고 — 6주 전환
-    사례" 절 추가.
-  - [[wiki/agent-rules-and-skills|Agent Rules and Skills]] — "역할이 뒤섞일 때의 실패
-    모드" 절 추가(규칙/워크플로 혼재 시 실패 양상 + 변경 권한 차등).
-  - [[wiki/agent-instruction-files|Agent Instruction Files]] — "정본 원칙의 일반화" 절
-    추가(AGENTS.md/CLAUDE.md 이식 문제와 같은 모양의 사내 지침 사례).
-  - [[wiki/agent-context-optimization|Agent Context Optimization]] — "규칙으로도 못박히는
-    원칙" 절 추가.
-- `wiki/INDEX.md`, `wiki/topics/ai-agents.md`에 신규 노트 링크 추가. `wiki/VAULT_MEMORY.md`는
-  건드리지 않았다.
+- 원문 URL을 `raw/` 전체 대상으로 사전 중복 검사 — 기존 노트 없음, 신규 클리핑으로 처리.
+- 신규 노트는 원문의 4요소(컨텍스트·도구·권한·트리거) 프레임과 권한 기준 3단 티어(웹 →
+  코딩/컴퓨터 유즈 → 자율)를 Summary/Details에 담고, 원문이 소개한 6개 서비스(Manus,
+  Genspark, Claude Code, Codex, Antigravity, Claude Cowork)를 스냅샷으로 정리했다.
+- `wiki/topics/ai-agents.md`와 `wiki/INDEX.md`에 새 노트를 링크했다. `wiki/TOPIC_MAP.md`는
+  기존 `ai-agents` 루트 토픽 범위 안이라 변경 없음.
+- 원문 클리핑은 `raw/`로 이동, 파일명은 원 제목에서 콜론(`:`)만 제거해 정규화(Windows
+  금지문자 회피), 120바이트 이내.
 
 ## Dropped / Issues
 
-없음. 두 원문 모두 needs-update 항목 없이 컴파일 완료. `agent-delegation-contract.md`의
-Open Questions에 원문이 스스로 미결로 남긴 안건(오케스트레이터 컨텍스트 압축 주체, 역할·저장소
-경계 충돌, 재시도 상한 재검토)을 그대로 옮겨 남겼다.
+- needs-update: 노트 본문의 모델 버전·요금제·출시일은 원문(2026-06-05 발행) 시점 스냅샷.
+- 원문 2편(자율 에이전트 4종)은 아직 클리핑되지 않음 — 후속 인제스트 대상으로 남겨둔다.

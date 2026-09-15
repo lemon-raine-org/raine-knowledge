@@ -7,6 +7,7 @@ up:
 
 ## Related Notes
 
+- [[wiki/agent-permission-tiers|Agent Permission Tiers]]
 - [[wiki/harness-engineering|Harness Engineering]]
 - [[wiki/agent-rules-and-skills|Agent Rules and Skills]]
 - [[wiki/agent-context-optimization|Agent Context Optimization]]
