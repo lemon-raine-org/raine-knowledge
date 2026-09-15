@@ -6,8 +6,9 @@ status: draft
 sources:
   - "raw/AGENTS.md - open format for guiding coding agents.md"
   - "raw/How Claude remembers your project - Claude Code Docs.md"
+  - "raw/AI 에이전트 하네스 운영 지침(2026-02 개정).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-15"
 ---
 
 # Agent Instruction Files
@@ -109,6 +110,17 @@ paths:
 `paths` 없는 rule은 무조건 로드된다. 이는 [[wiki/agent-rules-and-skills|Agent Rules and Skills]]가
 Cursor 기준으로 서술한 `globs` 조건부 스위치와 같은 메커니즘이다 — 하네스마다 키 이름과 위치는
 다르지만 "경로로 지침을 조건부 활성화한다"는 축은 공유한다.
+
+### 정본 원칙의 일반화
+
+AGENTS.md/CLAUDE.md 계보 간 이식 문제와 같은 모양의 규칙이 조직 내부 운영 지침에서도
+그대로 나타난다 — 한 하네스 운영 지침 문서는 "저장소 루트의 지침 파일은 도구별로 나누지
+않고 하나를 정본으로 두고, 다른 도구용 파일은 정본을 가리키는 포인터로만 둔다"고 명시한다.
+즉 "정본 하나 + 포인터"는 AGENTS.md/CLAUDE.md라는 특정 도구 쌍에 국한된 해법이 아니라,
+지침 파일이 여러 개로 늘어나는 모든 하네스가 수렴하는 일반 원칙이다. 같은 문서는 분량
+예산 규율도 함께 못박는다 — "지침 파일은 세션마다 전부 읽히므로 분량 예산을 둔다"는
+문장은 위 § 지침은 강제가 아니다에서 다루는 200줄 권장과 같은 근거(세션마다 전량 로드되는
+비용)에서 나온 규칙이다.
 
 ### 지침은 강제가 아니다
 
