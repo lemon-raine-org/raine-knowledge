@@ -4,7 +4,7 @@ kind: ingest
 run_date: "2026-09-21"
 author: raine-lemon
 summary: "바이너리 2건(hwpx·pdf) 변환 후 ingest → wiki 신규 2·갱신 5. raw/hwp·raw/pdf 레인 첫 생성"
-pr:
+pr: 4
 processed: 2
 new_notes: 2
 updated_notes: 5
