@@ -6,8 +6,9 @@ status: draft
 sources:
   - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
   - "raw/How Claude remembers your project - Claude Code Docs.md"
+  - "raw/AI 에이전트 하네스 운영 지침(2026-02 개정).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-21"
 ---
 
 # Agent Rules and Skills
@@ -100,12 +101,38 @@ React Query Hook → 테스트 코드` 순서로 고정된다. 결과물이 100%
 손으로 옮겨 적고 파일을 일일이 연결하던 초기 세팅(boilerplate)이 명령어 한 줄로 압축되고
 개발자는 리뷰와 다듬기에 집중하게 된다.
 
+### 세 번째 축 — 입력 전처리, 그리고 경계를 가르는 기준
+
+사내 운영 지침 사례는 같은 분리를 세 축으로 확장하고, 각 축을 **적용 시점**과 **변경 권한**
+으로 구분한다.
+
+| 구분 | 담는 것 | 적용 시점 | 변경 권한 |
+| --- | --- | --- | --- |
+| 규칙 | 프로젝트 컨벤션·금지사항 | 항상 적용 | 합의 |
+| 워크플로 | 반복 작업 절차 | 호출될 때만 | 담당자 단독 |
+| 입력 전처리 | 에이전트에 넘길 데이터 정제 | 작업 시작 전 | 담당자 단독 |
+
+'적용 시점' 열이 혼용 실패 모드를 설명한다.
+
+- **규칙을 워크플로 안에 적으면** 그 워크플로를 부르지 않는 작업에서는 규칙이 사라진다.
+- **워크플로 절차를 규칙에 적으면** 모든 세션이 쓰지도 않을 절차를 읽는다.
+
+원문의 개정 메모는 이 절이 규칙/워크플로 혼용으로 두 건의 사고가 난 뒤 추가됐다고 적는다.
+근거 문서가 검증용 가상 샘플임을 스스로 밝히므로 사고 건수는 예시값으로 읽는다
+(needs-update). 축별 변경 권한이 실제로 어떻게 운영되는지는
+[[wiki/harness-change-management|Harness Change Management]].
+
+세 번째 축인 입력 전처리는 이 표에서 Skills와 나란히 담당자 단독 변경으로 분류되지만,
+출력 형식을 바꿀 때는 소비하는 워크플로를 같은 커밋에서 함께 고쳐야 한다는 조건이 붙는다
+([[wiki/agent-context-optimization|Agent Context Optimization]] § 전처리 계약).
+
 ## Connections
 
 - [[wiki/harness-engineering|Harness Engineering]] — 이 두 축이 속한 상위 개념
 - [[wiki/agent-instruction-files|Agent Instruction Files]] — Rules를 담는 지침 파일의 위치·스코프·도구 간 이식성
 - [[wiki/agent-context-optimization|Agent Context Optimization]] — Skills의 컨텍스트 낭비 한계를 푸는 다음 단계
 - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]] — 역할 분리를 에이전트 단위로 확장한 형태
+- [[wiki/harness-change-management|Harness Change Management]] — 축마다 다른 변경 권한과 검토 절차
 
 ## Open Questions
 

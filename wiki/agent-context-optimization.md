@@ -5,8 +5,9 @@ topics:
 status: draft
 sources:
   - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
+  - "raw/AI 에이전트 하네스 운영 지침(2026-02 개정).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-21"
 ---
 
 # Agent Context Optimization
@@ -83,14 +84,33 @@ AS-IS에서 AI가 읽는 것은 `axiosInstance` import, `logger.info`, `handleEr
 넘김으로써 AI가 불필요한 코드를 탐색하다 길을 잃는 환각 문제를 예방하고, 일관된 결과물을
 안정적으로 얻게 된다.
 
+### 전처리 계약 — 출력 형식이 바뀌면 소비자도 같은 커밋에서 고친다
+
+운영 지침 사례는 이 패턴을 두 줄의 규칙으로 고정한다.
+
+1. 원본 파일을 통째로 넘기지 않는다. 판단에 필요한 메타데이터만 추출해 넘긴다.
+2. 전처리 스크립트의 출력 형식이 바뀌면 이를 소비하는 워크플로를 **같은 커밋에서 함께**
+   고친다.
+
+두 번째가 이 패턴의 상시 운영 비용이다. 전처리와 소비자는 문서화되지 않은 스키마로 묶여
+있는데, 불일치가 예외나 오류로 드러나지 않는다 — **에이전트가 조용히 빈 값을 채우는 형태로
+나타나 발견이 늦다.** 사람이 읽는 코드와 달리 빠진 필드를 모델이 그럴듯하게 메우기 때문이다.
+같은 실패 모드를 위임 경계에서 막는 장치가
+[[wiki/agent-delegation-contract|Agent Delegation Contract]]의 '실패 판정 조건'이다.
+
+(근거 문서는 검증용 가상 샘플임을 스스로 밝힌다 — 규칙의 형태만 인용한다.)
+
 ## Connections
 
 - [[wiki/harness-engineering|Harness Engineering]] — 이 패턴이 담당하는 하네스의 입력 최적화 축
 - [[wiki/agent-rules-and-skills|Agent Rules and Skills]] — 전처리 스크립트가 붙는 자리는 Skills다
 - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]] — 역할 분리로 컨텍스트를 나누는 다른 접근
+- [[wiki/agent-delegation-contract|Agent Delegation Contract]] — 같은 형식 불일치를 위임 경계에서 막는 장치
 
 ## Open Questions
 
 - 전처리 스크립트가 코드베이스 변화를 따라가지 못해 낡은 메타데이터를 넘기는 실패 모드를
-  어떻게 감지하는가. 원문은 다루지 않는다.
+  어떻게 **감지**하는가. 증상은 특정됐다(§ 전처리 계약 — 조용히 빈 값이 채워져 발견이 늦다)
+  지만, 탐지 수단을 제시한 원문은 아직 없다. 지금까지 나온 대응은 "소비자를 같은 커밋에서
+  함께 고친다"는 예방뿐이다. (needs-update)
 - 정규식 기반 추출의 정확도 한계(오버로드, 제네릭, 데코레이터 등)는 어디까지인가.

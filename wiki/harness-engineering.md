@@ -6,8 +6,9 @@ status: draft
 sources:
   - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
   - "raw/드디어 나에게 딱 맞았던 AI 에이전트 설정 Hermes + OpenAI Codex + Claude Code.md"
+  - "raw/AI 에이전트 하네스 운영 지침(2026-02 개정).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-21"
 ---
 
 # Harness Engineering
@@ -57,12 +58,20 @@ updated: "2026-09-14"
 위임하거나, 작업 분기(fork)로 파이프라인을 병렬 처리하는 다중 에이전트(multi-agent) 환경으로
 넓히는 것이 원문이 제시하는 다음 단계다.
 
+### 만든 다음 — 누가 어떤 절차로 바꾸는가
+
+하네스는 한 번 세우고 끝나는 것이 아니라 팀이 계속 고쳐 쓰는 공유물이다. 그래서 세 축을
+무엇으로 채울지와 별개로, **축마다 다른 변경 권한과 검토 절차**가 필요해진다 — 규칙은 모든
+세션에 무조건 로드되므로 폭발 반경이 크고, 워크플로·전처리는 호출한 작업에만 걸린다.
+[[wiki/harness-change-management|Harness Change Management]]가 이 축을 다룬다.
+
 ## Connections
 
 - [[wiki/agent-rules-and-skills|Agent Rules and Skills]] — 하네스의 규칙·자동화 축
 - [[wiki/agent-context-optimization|Agent Context Optimization]] — 하네스의 입력 최적화 축
 - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]] — 하네스를 여러 에이전트로 확장한 형태
 - [[wiki/claude-code-cli-delegation|Claude Code CLI Delegation]] — 오케스트레이터가 코딩 전문가를 호출하는 구체적 하네스
+- [[wiki/harness-change-management|Harness Change Management]] — 하네스를 고칠 때의 권한·검토·회귀 절차
 
 ## Open Questions
 
