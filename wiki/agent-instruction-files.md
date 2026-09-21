@@ -6,8 +6,9 @@ status: draft
 sources:
   - "raw/AGENTS.md - open format for guiding coding agents.md"
   - "raw/How Claude remembers your project - Claude Code Docs.md"
+  - "raw/AI 에이전트 하네스 운영 지침(2026-02 개정).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-21"
 ---
 
 # Agent Instruction Files
@@ -76,6 +77,25 @@ Claude 전용으로 덧붙일 내용이 없으면 심링크로도 된다(`ln -s 
 지시**로 남는다. 안 따라가면 지침 없이 작업하게 되므로, 되돌리기 어려운 규칙(append-only,
 커밋 금지 대상 등)을 이 방식에 의존해 걸어 두면 안 된다.
 
+같은 판단이 운영 지침 사례에도 나온다 — 정본은 하나로 두고 다른 도구용 파일은 포인터로만
+둔다는 규칙에, "포인터 방식은 하드 인바리언트가 소프트 지시로 약해지는 문제가 보고됐다.
+재검토 대상"이라는 각주가 달려 있다. 규칙을 그렇게 정해 놓고 그 규칙의 약점을 각주로 남긴
+형태다. (근거 문서는 검증용 가상 샘플 — needs-update)
+
+### 지침 파일 계층 — 정본 하나, 포인터, 분량 예산
+
+운영 지침 사례가 세운 세 줄이다.
+
+1. 저장소 루트의 지침 파일은 도구별로 나누지 않고 **하나를 정본**으로 둔다.
+2. 다른 도구용 파일은 정본을 가리키는 **포인터로만** 둔다.
+3. 지침 파일은 세션마다 전부 읽히므로 **분량 예산**을 둔다. 초과분은 별도 문서로 분리하고
+   포인터만 남긴다.
+
+1·2는 위 § 이식성과 같은 결론이고, 3은 분량이 준수율을 떨어뜨린다는 관찰(아래 § 지침은
+강제가 아니다)을 운영 규칙으로 옮긴 것이다. 세 번째 규칙은 본문을 줄이는 대신 포인터를
+늘리므로 두 번째 규칙의 약점(포인터는 소프트 지시다)을 지침 파일 **내부로** 들여온다 —
+분량 예산과 강제력은 맞바꿔지는 관계다. (inference)
+
 ### 중첩 우선순위 — 같은 모양, 다른 결과
 
 모노레포에서 갈리는 지점이다. 두 계보의 병합 규칙이 다르다.
@@ -126,6 +146,7 @@ Cursor 기준으로 서술한 `globs` 조건부 스위치와 같은 메커니즘
 - [[wiki/agent-rules-and-skills|Agent Rules and Skills]] — 지침 **안에** 무엇을 담을지의 역할 분리
 - [[wiki/agent-context-optimization|Agent Context Optimization]] — 조건부 로딩과 같은 문제(컨텍스트 예산)를 데이터 쪽에서 푸는 접근
 - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]] — 여러 도구를 섞어 쓸 때 이식성이 실제 제약이 되는 지점
+- [[wiki/harness-change-management|Harness Change Management]] — 이 파일을 고칠 때의 검토·회귀 절차
 
 ## Open Questions
 

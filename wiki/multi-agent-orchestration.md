@@ -6,8 +6,9 @@ status: draft
 sources:
   - "raw/드디어 나에게 딱 맞았던 AI 에이전트 설정 Hermes + OpenAI Codex + Claude Code.md"
   - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
+  - "raw/멀티 에이전트 오케스트레이션 도입 회고(2026-03).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-21"
 ---
 
 # Multi-Agent Orchestration
@@ -68,16 +69,52 @@ Reddit 사례의 스택은 다섯 계층으로 나뉜다.
 - 오케스트레이터의 스킬 시스템이 라우팅 패턴을 축적하면서 운영 시간이 길어질수록 빨라진다는 주장
   (댓글 의견, 측정 근거 없음 — inference).
 
+### 전환의 동기는 성능이 아니라 관찰 가능성
+
+도입 회고 사례가 밝히는 전환 출발점은 속도도 품질도 아니다 — **실패의 관찰 가능성**이다.
+"한 창에서 모든 일이 벌어지면 어느 단계에서 틀어졌는지 사후에 짚을 수 없었다." 역할 분리를
+성능 최적화로 기대하면 다음 절의 비용에 걸려 넘어진다.
+
+### 컨텍스트 격리는 공짜가 아니다
+
+에이전트를 나누면 각자의 컨텍스트가 깨끗해지는 대신 **같은 배경 설명이 여러 번 반복해서
+들어간다**. 역할을 잘게 쪼갤수록 총 토큰이 늘고 응답이 느려지는 구간이 분명히 있다. 회고는
+도입 초기에 이 중복 비용을 과소평가했다고 적는다.
+
+정착한 기준은 한 줄이다 — **독립적으로 검증 가능한 산출물이 나오는 단위까지만 쪼갠다.**
+
+| 판단 | 기준 |
+| --- | --- |
+| 쪼갠다 | 독립적으로 검증 가능한 산출물이 나온다 |
+| 쪼개지 않는다 | 재설명 비용 > 격리 이득 |
+
+이 기준은 [[wiki/agent-context-optimization|Agent Context Optimization]]과 반대 방향에서
+같은 예산을 다룬다 — 전처리는 한 에이전트에게 넘기는 입력을 줄이고, 격리 기준은 에이전트를
+늘릴 때 따라 늘어나는 중복 입력을 막는다.
+
+### 역할을 나눴다고 계약이 생기지는 않는다
+
+회고가 초기에 가장 많이 깨진 지점으로 꼽는 것은 모델의 능력이 아니라 에이전트 사이에 무엇이
+오가는지 합의되지 않은 것이었다. 조사 담당이 요약문을 넘겨도 구현 담당이 원문을 다시 읽는
+중복이 반복됐다. 역할 분리 다음의 필수 단계가
+[[wiki/agent-delegation-contract|Agent Delegation Contract]]다.
+
+(이 세 절의 근거 문서는 검증용 가상 샘플임을 스스로 밝히며 수치는 모두 예시값이다 —
+구조만 인용하고 기간·단계 수는 실측으로 읽지 않는다. needs-update)
+
 ## Connections
 
 - [[wiki/harness-engineering|Harness Engineering]] — 이 구성이 속한 상위 개념
 - [[wiki/claude-code-cli-delegation|Claude Code CLI Delegation]] — 오케스트레이터→전문가 위임의 구체적 구현과 함정
+- [[wiki/agent-delegation-contract|Agent Delegation Contract]] — 역할 사이에 오가는 것을 고정하는 계약
 - [[wiki/agent-rules-and-skills|Agent Rules and Skills]] — 단일 에이전트 안에서의 역할 분리
 
 ## Open Questions
 
-- 오케스트레이터가 전문가의 결과를 검증하는 기준을 어디까지 자동화할 수 있는가. 원문은
-  "간단한 테스트"라고만 적는다.
+- 오케스트레이터가 전문가의 결과를 검증하는 기준을 어디까지 자동화할 수 있는가. Reddit
+  원문은 "간단한 테스트"라고만 적는다. 회고 사례는 역할마다 실패 판정 조건을 미리 적어 두는
+  쪽으로 답하지만([[wiki/agent-delegation-contract|Agent Delegation Contract]]), "출처 없는
+  주장 포함" 같은 조건은 결국 사람이 읽어야 판정된다. (needs-update)
 - 한 제공자의 사용량 한도에 걸렸을 때의 백업 모델 전환은 원문 작성자도 미해결로 남겨두었다 —
   OpenRouter를 백업 레이어로 검토 중이며 수동 전환 후 자동 장애 조치로 넘어가는 방향을
   구상 단계로 언급한다. (needs-update)

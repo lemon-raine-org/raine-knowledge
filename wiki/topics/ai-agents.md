@@ -13,3 +13,5 @@ up:
 - [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]]
 - [[wiki/claude-code-cli-delegation|Claude Code CLI Delegation]]
 - [[wiki/agent-instruction-files|Agent Instruction Files]]
+- [[wiki/agent-delegation-contract|Agent Delegation Contract]]
+- [[wiki/harness-change-management|Harness Change Management]]

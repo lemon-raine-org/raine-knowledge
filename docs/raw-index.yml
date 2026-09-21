@@ -1,15 +1,38 @@
 # Raw Index — raw/ 보존소의 자동 생성 색인. 수동 편집 금지.
 # 재생성: vault 루트에서 python3 projects/second-brain/config/scripts/generate_raw_index.py
 # 계약: docs/raw-layout.md § 색인. 사람용 요약: docs/raw-index.md
-generated: "2026-09-14"
-root_files: 2
+generated: "2026-09-21"
+root_files: 6
 root_cap: 200
 screenshots: 0
+conversion_originals:
+  pdf: 1
+  hwp: 1
+  doc: 0
+orphan_originals: []
 by_month:
-  "2026-09": 2
+  "unknown": 2
+  "2026-09": 4
 orphans: []
 duplicate_sources: []
 entries:
+  - file: "raw/멀티 에이전트 오케스트레이션 도입 회고(2026-03).md"
+    added: "unknown"
+    source: ""
+    refs:
+      - "outputs/runs/2026-09-21-ingest-raine-lemon.md"
+      - "wiki/agent-delegation-contract.md"
+      - "wiki/multi-agent-orchestration.md"
+  - file: "raw/AI 에이전트 하네스 운영 지침(2026-02 개정).md"
+    added: "unknown"
+    source: ""
+    refs:
+      - "outputs/runs/2026-09-21-ingest-raine-lemon.md"
+      - "wiki/agent-context-optimization.md"
+      - "wiki/agent-instruction-files.md"
+      - "wiki/agent-rules-and-skills.md"
+      - "wiki/harness-change-management.md"
+      - "wiki/harness-engineering.md"
   - file: "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
     added: "2026-09-14"
     source: "https://techblog.woowahan.com/26177/"
@@ -27,3 +50,16 @@ entries:
       - "wiki/claude-code-cli-delegation.md"
       - "wiki/harness-engineering.md"
       - "wiki/multi-agent-orchestration.md"
+  - file: "raw/How Claude remembers your project - Claude Code Docs.md"
+    added: "2026-09-14"
+    source: "https://code.claude.com/docs/en/memory"
+    refs:
+      - "outputs/runs/2026-09-14-ingest-raine-lemon-2.md"
+      - "wiki/agent-instruction-files.md"
+      - "wiki/agent-rules-and-skills.md"
+  - file: "raw/AGENTS.md - open format for guiding coding agents.md"
+    added: "2026-09-14"
+    source: "https://agents.md"
+    refs:
+      - "outputs/runs/2026-09-14-ingest-raine-lemon-2.md"
+      - "wiki/agent-instruction-files.md"
