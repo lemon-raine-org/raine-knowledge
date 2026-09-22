@@ -48,6 +48,7 @@ This vault inserts a **compile step** in between. Originals are preserved untouc
 | **PDF ingest** | Converts PDFs to Markdown with a strategy matched to per-page text density and drops them into `Clippings/` (`pdf2md-ingest`) |
 | **HWP ingest** | Converts Korean HWP/HWPX documents to Markdown — no Hancom Office required — and drops them into `Clippings/` (`hwp2md-ingest`) |
 | **Word ingest** | Converts Word documents (.doc/.docx) to Markdown and drops them into `Clippings/` — `.docx` keeps its structure, `.doc` may lose structure depending on the conversion path (`doc2md-ingest`) |
+| **Excel ingest** | Converts Excel workbooks (.xlsx/.xlsm/.xls) into per-sheet Markdown tables and drops them into `Clippings/` — dataset-like workbooks are filtered out before ingest (`xlsx2md-ingest`) |
 | **Document promotion** | Promotes team/personal repo docs — reusable concepts to wiki, original snapshots to `raw/` (`vault-promote`) |
 | **Cited Q&A** | Answers from `wiki/INDEX.md` and saves retained answers to `outputs/` |
 | **Quality lint** | Detects stubs, contradictions, broken links, and frontmatter violations, files a report, and regenerates the `raw/` index |
@@ -105,7 +106,7 @@ private/          ← personal scratch space (git-untracked)
 | [Claude CLI](https://claude.com/claude-code) (`claude`) | Optional | delegate ingest/lint to Claude Code (falls back to Hermes without it) |
 | [GitHub CLI](https://cli.github.com) (`gh`) | Optional | create PRs / link GitHub projects from the terminal (web works too) |
 | Python 3 | Optional | one-shot ingest runner (`vault_ingest_once.py`), invariant verifier (`vault_verify.py`), volume fold (`vault_volume.py`), and `raw/` index generation (`generate_raw_index.py`) |
-| [pandoc](https://pandoc.org) · [uv](https://docs.astral.sh/uv/) | Optional | Needed by the document conversion skills (`doc2md-ingest`, `hwp2md-ingest`); the setup script installs them for you |
+| [pandoc](https://pandoc.org) · [uv](https://docs.astral.sh/uv/) | Optional | Needed by the document conversion skills (`doc2md-ingest`, `hwp2md-ingest`, `xlsx2md-ingest`); the setup script installs them for you (`xlsx2md-ingest` only needs uv) |
 | Node 24+ | Optional | The toolchain pinned by the vault-root `package.json`; TypeScript tools under `projects/*/config/` (the `medium-digest` scripts, for one) build against it |
 
 The setup script below installs all of these, so you only need this list for a manual install. Version check:
@@ -248,7 +249,7 @@ Humans and LLMs read the same documents. Each one owns a different layer.
 
 ## Skills
 
-The skill documents in `projects/second-brain/config/skills/` are the source of truth for each workflow. Folder-style skills (`pdf2md-ingest`, `hwp2md-ingest`, `doc2md-ingest`, `medium-digest`) are exposed to Claude Code automatically through symlinks in `.claude/skills/`.
+The skill documents in `projects/second-brain/config/skills/` are the source of truth for each workflow. Folder-style skills (`pdf2md-ingest`, `hwp2md-ingest`, `doc2md-ingest`, `xlsx2md-ingest`, `medium-digest`) are exposed to Claude Code automatically through symlinks in `.claude/skills/`.
 
 | Skill | Role |
 | --- | --- |
@@ -258,6 +259,7 @@ The skill documents in `projects/second-brain/config/skills/` are the source of 
 | `pdf2md-ingest` | Converts PDFs to Markdown and drops them into `Clippings/` — measures text density, proposes a strategy (pymupdf4llm, local OCR, or Claude vision transcription); the regular ingest takes it from there |
 | `hwp2md-ingest` | Converts HWP/HWPX to Markdown and drops it into `Clippings/` — pure-Python extraction first (no Hancom Office), Claude vision transcription fallback for text-sparse documents; an out-of-vault mode handles documents that must not be committed |
 | `doc2md-ingest` | Converts `.doc`/`.docx` to Markdown and drops it into `Clippings/` — pandoc directly for `.docx` (structure preserved); for `.doc`, LibreOffice first on every platform, otherwise Word COM on Windows or textutil on macOS (headings, lists, table headers, and images are lost — a warning is emitted); an out-of-vault mode handles documents that must not be committed |
+| `xlsx2md-ingest` | Converts `.xlsx`/`.xlsm`/`.xls` into per-sheet Markdown tables and drops them into `Clippings/` — openpyxl directly (uv is the only prerequisite); for `.xls`, LibreOffice first on every platform, otherwise Excel COM on Windows. Formulas use the cached value, falling back to the formula text when no cache exists. Tables are capped at 200 rows x 40 columns while the original is preserved whole under `raw/xls/`. **Datasets are not ingest material** — a suitability gate filters them out first; an out-of-vault mode handles documents that must not be committed |
 | `vault-promote` | Promotes team/personal repo docs into the vault — reusable concepts to wiki, an original snapshot to `raw/` (a separate lane from clipping ingest) |
 | `medium-digest` | Deterministically extracts the article list from Gmail's Medium Daily Digest, collects bodies (member-only included) through a logged-in Chrome, then summarizes and recommends clipping candidates; only approved items go to `Clippings/` for the regular ingest |
 | `vault-query` | Answer from wiki, save retained answers to `outputs/` |

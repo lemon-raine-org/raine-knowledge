@@ -48,6 +48,7 @@
 | **PDF 인제스트** | PDF를 페이지별 텍스트 밀도에 맞는 전략으로 MD 변환해 `Clippings/`에 투입 (`pdf2md-ingest`) |
 | **HWP 인제스트** | 한글 문서(.hwp/.hwpx)를 한컴오피스 없이 MD로 변환해 `Clippings/`에 투입 (`hwp2md-ingest`) |
 | **Word 인제스트** | Word 문서(.doc/.docx)를 MD로 변환해 `Clippings/`에 투입 — `.docx`는 구조 보존, `.doc`은 변환 경로에 따라 구조 손실 가능 (`doc2md-ingest`) |
+| **엑셀 인제스트** | Excel 통합문서(.xlsx/.xlsm/.xls)를 시트별 MD 표로 변환해 `Clippings/`에 투입 — 데이터셋 성격의 파일은 잉게스트 대상에서 거른다 (`xlsx2md-ingest`) |
 | **문서 승격** | 팀/개인 repo의 문서를 재사용 개념은 wiki로, 원문 스냅샷은 `raw/`로 승격 (`vault-promote`) |
 | **인용 기반 질의응답** | `wiki/INDEX.md`를 근거로 답하고, 보존할 답변은 `outputs/`에 저장 |
 | **품질 린트** | stub·모순·끊긴 링크·frontmatter 위반을 검사해 리포트를 남기고 `raw/` 색인을 재생성 |
@@ -105,7 +106,7 @@ private/          ← 개인 전용 스크래치 (git 비추적)
 | [Claude CLI](https://claude.com/claude-code) (`claude`) | 선택 | 인제스트·린트를 Claude Code에 위임 (없으면 Hermes 폴백) |
 | [GitHub CLI](https://cli.github.com) (`gh`) | 선택 | 터미널에서 PR 생성·GitHub 프로젝트 연결 (웹으로 대체 가능) |
 | Python 3 | 선택 | 원샷 인제스트(`vault_ingest_once.py`)·불변식 검증(`vault_verify.py`)·볼륨 집계(`vault_volume.py`)·`raw/` 색인 생성(`generate_raw_index.py`) 스크립트 |
-| [pandoc](https://pandoc.org) · [uv](https://docs.astral.sh/uv/) | 선택 | 문서 변환 스킬(`doc2md-ingest`·`hwp2md-ingest`)용. 설치 스크립트가 함께 설치한다 |
+| [pandoc](https://pandoc.org) · [uv](https://docs.astral.sh/uv/) | 선택 | 문서 변환 스킬(`doc2md-ingest`·`hwp2md-ingest`·`xlsx2md-ingest`)용. 설치 스크립트가 함께 설치한다 (`xlsx2md-ingest`는 uv만 쓴다) |
 | Node 24+ | 선택 | 볼트 루트 `package.json`이 고정하는 툴체인 — `projects/*/config/` 아래 TypeScript 도구(`medium-digest` 스크립트 등)가 이걸 기준으로 빌드된다 |
 
 아래 설치 스크립트를 쓰면 이 목록을 직접 설치할 필요가 없다. 수동 설치 시 버전 확인:
@@ -252,7 +253,7 @@ Claude에 넘기는 job spec은 스크립트 안에 사본이 없다 — [`vault
 
 ## 스킬
 
-각 워크플로우의 진실원은 `projects/second-brain/config/skills/`의 스킬 문서다. 폴더형 스킬(`pdf2md-ingest`, `hwp2md-ingest`, `doc2md-ingest`, `medium-digest`)은 `.claude/skills/`의 심링크로 Claude Code에 자동 노출된다.
+각 워크플로우의 진실원은 `projects/second-brain/config/skills/`의 스킬 문서다. 폴더형 스킬(`pdf2md-ingest`, `hwp2md-ingest`, `doc2md-ingest`, `xlsx2md-ingest`, `medium-digest`)은 `.claude/skills/`의 심링크로 Claude Code에 자동 노출된다.
 
 | 스킬 | 역할 |
 | --- | --- |
@@ -262,6 +263,7 @@ Claude에 넘기는 job spec은 스크립트 안에 사본이 없다 — [`vault
 | `pdf2md-ingest` | PDF를 MD로 변환해 `Clippings/`에 투입 — 텍스트 밀도 측정 후 전략(pymupdf4llm·로컬 OCR·Claude 비전 전사) 제안, wiki화는 인제스트가 이어받음 |
 | `hwp2md-ingest` | HWP/HWPX를 MD로 변환해 `Clippings/`에 투입 — 순수 Python 추출(한컴오피스 불필요) 우선, 텍스트 희소 문서는 Claude 비전 전사 폴백. 커밋 불가 문서는 vault 밖 변환 모드 |
 | `doc2md-ingest` | `.doc`/`.docx`를 MD로 변환해 `Clippings/`에 투입 — `.docx`는 pandoc 직행(구조 보존). `.doc`은 LibreOffice(전 플랫폼) 우선, 없으면 Windows는 Word COM·macOS는 textutil(헤딩·목록·표 헤더·이미지 손실, 경고 출력). 커밋 불가 문서는 vault 밖 변환 모드 |
+| `xlsx2md-ingest` | `.xlsx`/`.xlsm`/`.xls`를 시트별 MD 표로 변환해 `Clippings/`에 투입 — openpyxl 직행(uv만 있으면 된다). `.xls`는 LibreOffice(전 플랫폼) 우선, 없으면 Windows는 Excel COM. 수식은 캐시값, 캐시가 없으면 수식 원문을 남긴다. 표는 기본 200행×40열로 자르고 원본은 `raw/xls/`에 온전히 보존. **데이터셋은 잉게스트 대상이 아니다** — 적합성 게이트가 먼저 거른다. 커밋 불가 문서는 vault 밖 변환 모드 |
 | `vault-promote` | repo 문서·개인 KB 노트를 wiki + `raw/`로 승격 (클리핑 인제스트와 별도 레인) |
 | `medium-digest` | Gmail의 Medium Daily Digest에서 아티클 목록을 결정론적으로 추출, 로그인된 Chrome으로 본문(member-only 포함) 수집 → 한국어 요약·클리핑 후보 추천. 승인분만 `Clippings/`로 넘겨 인제스트가 이어받음 |
 | `vault-query` | wiki 기반 응답, 보존 답변을 `outputs/`에 저장 |
