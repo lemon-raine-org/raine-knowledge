@@ -34,7 +34,7 @@ SCAN_GLOBS = ["wiki/**/*.md", "outputs/**/*.md", "projects/**/*.md", "areas/**/*
 # 변환된 MD가 source_<lane> frontmatter 키로 원본을 가리킨다 — 짝 판정의 근거는 그 키다.
 # 본문에 "raw/pdf/" 문자열이 스치는 문서(스킬 계약서 등)가 많아 corpus 언급으로는
 # 짝을 판정할 수 없다.
-CONVERSION_LANES = ("pdf", "hwp", "doc")
+CONVERSION_LANES = ("pdf", "hwp", "doc", "xls")
 # docs/raw-layout.md § 레인 5: Slack export에서 스레드 단위로 추출한 Markdown 보존본.
 # 루트 파일과 같은 노트 형태라 참조 0건이면 오펀이다 — 짝 판정 키가 따로 없고,
 # 루트 파일과 똑같이 corpus가 경로 문자열을 언급하는지로 판정한다.

@@ -58,20 +58,26 @@ raw/는 유입 경로가 다른 5개 레인을 담는다.
   `projects/auto-digest-screenshot-via-telegram/config/skills/telegram-screenshot-digest.md`.
 - `<slug>-<short-hash>.<ext>` + 짝 `.ocr.md`, append-only.
 
-### 4. 변환 원본 (`pdf/` · `hwp/` · `doc/`)
+### 4. 변환 원본 (`pdf/` · `hwp/` · `doc/` · `xls/`)
 
 - 유입: 바이너리 문서를 MD로 변환해 `Clippings/`에 투입하는 변환 스킬이 **원본 파일을
   그대로** 보존하는 곳. 확장자 유지, 파일명 무변경, append-only.
 - 계약 소유: `pdf2md-ingest` → `raw/pdf/`, `hwp2md-ingest` → `raw/hwp/`,
-  `doc2md-ingest` → `raw/doc/` (+ 임베디드 이미지는 `raw/doc/media/<stem>/`).
+  `doc2md-ingest` → `raw/doc/` (+ 임베디드 이미지는 `raw/doc/media/<stem>/`),
+  `xlsx2md-ingest` → `raw/xls/` (+ `raw/xls/media/<stem>/`).
   각 스킬은 `projects/second-brain/config/skills/<name>/SKILL.md`.
-- 변환된 MD의 frontmatter가 `source_pdf`·`source_hwp`·`source_doc` 키로 여기를
-  가리키고 `source_sha256`으로 동일성을 고정한다. 중복 검사는 이 경로의 존재 여부다.
+- 변환된 MD의 frontmatter가 `source_pdf`·`source_hwp`·`source_doc`·`source_xls` 키로
+  여기를 가리키고 `source_sha256`으로 동일성을 고정한다. 중복 검사는 이 경로의 존재 여부다.
+- `xls/` 레인은 다른 셋과 달리 **원본이 잉게스트 없이 보존만 되는 경우가 정상이다** —
+  데이터셋 성격의 통합문서는 wiki 지식이 아니라 Clippings로 넘기지 않는다
+  (`xlsx2md-ingest` §0 게이트 0). 그런 파일은 짝 없는 원본으로 집계되므로, lint가
+  `raw/xls/` 고아를 올리면 변환 누락이 아니라 이 사유일 수 있다.
 - 색인 생성기가 레인별 원본 개수와 **짝 없는 원본**(어느 변환 MD의 `source_<lane>` 키도
   가리키지 않는 보존 파일)을 집계한다 — 변환 누락이나 키 누락을 lint에서 잡는다.
   짝 판정은 그 frontmatter 키만 근거로 한다. 스킬 계약서 본문에 `raw/pdf/` 같은 경로
   문자열이 예시로 자주 등장해, 문서 언급을 짝으로 세면 오탐이 난다.
-- (2026-08-25 명문화. 세 스킬 계약이 같은 규칙을 각자 적고 있어 레인으로 묶었다 —
+- (2026-08-25 명문화. 세 스킬 계약이 같은 규칙을 각자 적고 있어 레인으로 묶었다.
+  2026-09-21에 `xlsx2md-ingest`가 `xls/`를 네 번째로 들여왔다 —
   이 시점에는 실제 `raw/pdf/`·`raw/hwp/`·`raw/doc/` 디렉터리가 어느 vault에도 없었다.
   첫 변환 잉게스트가 만든다. 2026-09-04 실측: 파생 볼트 한 곳에 `raw/pdf/` 레인이
   처음 생겼고, 그 볼트 사본이 먼저 갖고 있던 레인 색인을 회수해 생성기에 반영했다.)
