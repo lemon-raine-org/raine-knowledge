@@ -4,7 +4,7 @@ kind: ingest
 run_date: "2026-09-22"
 author: raine-lemon
 summary: "hwpx 1 + pdf 1 변환 잉게스트 — 신규 2, 갱신 5. raw/hwp·raw/pdf 변환 레인 첫 생성."
-pr:
+pr: 5
 processed: 2
 new_notes: 2
 updated_notes: 5
