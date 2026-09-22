@@ -6,8 +6,9 @@ status: draft
 sources:
   - "raw/드디어 나에게 딱 맞았던 AI 에이전트 설정 Hermes + OpenAI Codex + Claude Code.md"
   - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
+  - "raw/멀티 에이전트 오케스트레이션 도입 회고(2026-03).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-15"
 ---
 
 # Multi-Agent Orchestration
@@ -59,6 +60,17 @@ Reddit 사례의 스택은 다섯 계층으로 나뉜다.
 병렬 처리하는 다중 에이전트 환경. 즉 Rules/Skills로 시작한 하네스가 도달하는 다음 단계와,
 개인이 오케스트레이터 중심으로 조립한 이 스택은 같은 지점을 향한다.
 
+### 도입 회고 — 6주 전환 사례
+
+단일 에이전트에 조사·구현·검토를 전부 맡기던 구성에서 역할별 구성으로 6주간 전환한 사례는,
+전환의 출발점이 성능이 아니라 **실패의 관찰 가능성**이었다고 보고한다. 한 창에서 모든 일이
+벌어지면 어느 단계에서 틀어졌는지 사후에 짚을 수 없기 때문이다.
+
+이 사례가 남긴 핵심은 역할 분리 자체보다, 역할 사이에 넘어가는 것을 계약으로 고정하는
+쪽이었다 — 자세한 내용은 [[wiki/agent-delegation-contract|Agent Delegation Contract]] 참고.
+쪼개기 기준도 같은 원문에서 나왔다: 독립적으로 검증 가능한 산출물이 나오는 단위까지만
+쪼개고, 그보다 잘게 나누면 컨텍스트 격리의 이득보다 재설명 비용이 커진다.
+
 ### 댓글에서 나온 변형
 
 - 에이전트 간 통신을 직접 구현하고, 항상 살아 있어야 하는 에이전트에는 세션을 시작·재개하는
@@ -73,6 +85,7 @@ Reddit 사례의 스택은 다섯 계층으로 나뉜다.
 - [[wiki/harness-engineering|Harness Engineering]] — 이 구성이 속한 상위 개념
 - [[wiki/claude-code-cli-delegation|Claude Code CLI Delegation]] — 오케스트레이터→전문가 위임의 구체적 구현과 함정
 - [[wiki/agent-rules-and-skills|Agent Rules and Skills]] — 단일 에이전트 안에서의 역할 분리
+- [[wiki/agent-delegation-contract|Agent Delegation Contract]] — 역할 사이 위임을 계약으로 고정하는 방법
 
 ## Open Questions
 
