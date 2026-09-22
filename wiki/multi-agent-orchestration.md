@@ -5,9 +5,9 @@ topics:
 status: draft
 sources:
   - "raw/드디어 나에게 딱 맞았던 AI 에이전트 설정 Hermes + OpenAI Codex + Claude Code.md"
-  - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"
+  - "raw/하네스 엔지니어링(harness engineering)으로 팀 맞춤형 AI 환경 구축하기.md"  - "raw/멀티 에이전트 오케스트레이션 도입 회고(2026-03).md"
 created: "2026-09-14"
-updated: "2026-09-14"
+updated: "2026-09-22"
 ---
 
 # Multi-Agent Orchestration
@@ -68,16 +68,38 @@ Reddit 사례의 스택은 다섯 계층으로 나뉜다.
 - 오케스트레이터의 스킬 시스템이 라우팅 패턴을 축적하면서 운영 시간이 길어질수록 빨라진다는 주장
   (댓글 의견, 측정 근거 없음 — inference).
 
+### 도입 동기가 성능이 아닐 때 — 관찰 가능성
+
+6주간 단일 에이전트 구성에서 역할별 분할로 전환한 회고 문서는 전환의 출발점을 성능이 아니라
+**실패의 관찰 가능성**으로 적는다. "한 창에서 모든 일이 벌어지면 어느 단계에서 틀어졌는지
+사후에 짚을 수 없었다."
+
+이 동기는 위 § 역할 분담이 보여주는 '적재적소 모델 배치'와 다른 축이다. 모델 성능이 동일해도
+단계가 분리돼 있으면 어느 단계의 산출물이 어긋났는지 짚을 수 있다. 같은 회고가 역할마다
+산출물과 실패 판정을 짝으로 붙인 표를 남긴 것도 이 동기에서 나온다 —
+[[wiki/agent-delegation-contract|Agent Delegation Contract]].
+
+그리고 관찰 가능성은 공짜가 아니다. 역할을 잘게 쪼갤수록 같은 배경 설명이 반복 투입되어 총
+토큰이 늘고 응답이 느려진다 — [[wiki/context-isolation-cost|Context Isolation Cost]]. 회고가
+정착시킨 기준은 "독립적으로 검증 가능한 산출물이 나오는 단위까지만 쪼갠다"이다.
+
+(출처 원문은 지식관리 파이프라인 검증용 가상 샘플임을 본문에 명시하고 수치도 예시값이다 —
+6주·2주 같은 기간은 근거로 쓰지 않는다. needs-update)
+
 ## Connections
 
 - [[wiki/harness-engineering|Harness Engineering]] — 이 구성이 속한 상위 개념
 - [[wiki/claude-code-cli-delegation|Claude Code CLI Delegation]] — 오케스트레이터→전문가 위임의 구체적 구현과 함정
 - [[wiki/agent-rules-and-skills|Agent Rules and Skills]] — 단일 에이전트 안에서의 역할 분리
+- [[wiki/agent-delegation-contract|Agent Delegation Contract]] — 나눈 역할 사이에 무엇을 주고받을지 고정하는 규약
+- [[wiki/context-isolation-cost|Context Isolation Cost]] — 어디까지 쪼갤지의 손익분기
 
 ## Open Questions
 
 - 오케스트레이터가 전문가의 결과를 검증하는 기준을 어디까지 자동화할 수 있는가. 원문은
-  "간단한 테스트"라고만 적는다.
+  "간단한 테스트"라고만 적는다. **부분 진전(2026-09-22)** — 회고 문서 쪽은 역할마다 실패
+  판정을 미리 적어 두는 방식으로 접근한다([[wiki/agent-delegation-contract|Agent Delegation Contract]]).
+  다만 그 판정이 문서에 적힌 기준일 뿐 기계적으로 강제되는지는 원문도 다루지 않는다.
 - 한 제공자의 사용량 한도에 걸렸을 때의 백업 모델 전환은 원문 작성자도 미해결로 남겨두었다 —
   OpenRouter를 백업 레이어로 검토 중이며 수동 전환 후 자동 장애 조치로 넘어가는 방향을
   구상 단계로 언급한다. (needs-update)
